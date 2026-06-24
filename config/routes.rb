@@ -11,4 +11,25 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # - Endpoints to: Create/Update/Delete/Index/Show teams
+  # - Endpoints to: Create/Update/Delete/Index/Show members
+  # - Endpoints to: Create/Update/Delete/Index/Show projects
+  # - Endpoint to: Update the team of a member
+  # - Endpoint to: Get the members of a specific team
+  # - Endpoint to: Add a member to a project
+  # - Endpoint to: Get the members of a specific project
+
+  resources :teams do
+    get :members, on: :member
+  end
+
+  resources :projects do
+    get :members, on: :member
+    post :add_member, on: :member
+  end
+
+  resources :members do
+    patch :update_team, on: :member
+  end
 end
