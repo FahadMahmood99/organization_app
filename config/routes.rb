@@ -20,16 +20,20 @@ Rails.application.routes.draw do
   # - Endpoint to: Add a member to a project
   # - Endpoint to: Get the members of a specific project
 
-  resources :teams do
-    get :members, on: :member
-  end
+  namespace :api do
+    namespace :v1 do
+      resources :teams do
+        get :members, on: :member
+      end
 
-  resources :projects do
-    get :members, on: :member
-    post :add_member, on: :member
-  end
+      resources :projects do
+        get :members, on: :member
+        post :add_member, on: :member
+      end
 
-  resources :members do
-    patch :update_team, on: :member
+      resources :members do
+        patch :update_team, on: :member
+      end
+    end
   end
 end
