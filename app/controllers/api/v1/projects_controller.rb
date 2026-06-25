@@ -18,7 +18,7 @@ module Api
         if project.save
           render json: project, status: :created
         else
-          render json: project.errors, status: :unprocessable_entity
+          render json: { errors: project.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
@@ -28,7 +28,7 @@ module Api
         if project.update(name: params[:name])
           render json: project
         else
-          render json: project.errors, status: :unprocessable_entity
+          render json: { errors: project.errors.full_messages }, status: :unprocessable_entity
         end
       end
 

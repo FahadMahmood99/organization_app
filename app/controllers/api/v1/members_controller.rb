@@ -18,7 +18,7 @@ module Api
         if member.save
           render json: member, status: :created
         else
-          render json: member.errors, status: :unprocessable_entity
+          render json: { errors: member.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
@@ -28,7 +28,7 @@ module Api
         if member.update(member_params)
           render json: member
         else
-          render json: member.errors, status: :unprocessable_entity
+          render json: { errors: member.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
