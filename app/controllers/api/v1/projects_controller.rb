@@ -3,53 +3,57 @@ module Api
     class ProjectsController < ApplicationController
 
       def index
-        projects = Project.all
-        render json: projects
+        @projects = Project.includes(:members)
       end
 
       def show
-        project = Project.find(params[:id])
-        render json: project
+        @project = Project.includes(:members).find(params[:id])
       end
 
       def create
-        project = Project.new(name: params[:name])
+        @project = Project.new(name: params[:name])
 
-        if project.save
-          render json: project, status: :created
+        if @project.save
+          render :show, status: :created
         else
-          render json: { errors: project.errors.full_messages }, status: :unprocessable_entity
+          render json: {
+            errors: @project.errors.full_messages
+          }, status: :unprocessable_entity
         end
       end
 
       def update
-        project = Project.find(params[:id])
+        @project = Project.find(params[:id])
 
-        if project.update(name: params[:name])
-          render json: project
+        if @project.update(name: params[:name])
+          render :show
         else
-          render json: { errors: project.errors.full_messages }, status: :unprocessable_entity
+          render json: {
+            errors: @project.errors.full_messages
+          }, status: :unprocessable_entity
         end
       end
 
       def destroy
-        project = Project.find(params[:id])
-        project.destroy
-        render json: { message: "Deleted successfully" }, status: :ok
+        @project = Project.find(params[:id])
+        @project.destroy
+
+        render json: {
+          message: "Deleted successfully"
+        }, status: :ok
       end
 
       def members
-        project = Project.find(params[:id])
-        render json: project.members
+        @project = Project.find(params[:id])
       end
 
       def add_member
-        project = Project.find(params[:id])
+        @project = Project.find(params[:id])
         member = Member.find(params[:member_id])
 
-        project.members << member
+        @project.members << member
 
-        render json: project.members
+        render :members
       end
 
     end

@@ -3,48 +3,44 @@ module Api
     class TeamsController < ApplicationController
 
       def index
-        teams = Team.all
-        render json: teams
+        @teams = Team.includes(:members)
       end
 
       def show
-        team = Team.find(params[:id])
-        render json: team
+        @team = Team.find(params[:id])
       end
 
       def create
-        team = Team.new(name: params[:name])
+        @team = Team.new(name: params[:name])
 
-        if team.save
-          render json: team, status: :created
+        if @team.save
+          render :show, status: :created
         else
           render json: {
-            errors: team.errors.full_messages
+            errors: @team.errors.full_messages
           }, status: :unprocessable_entity
         end
       end
 
       def update
-        team = Team.find(params[:id])
+        @team = Team.find(params[:id])
 
-        if team.update(name: params[:name])
-          render json: team
+        if @team.update(name: params[:name])
+          render :show
         else
           render json: {
-            errors: team.errors.full_messages
+            errors: @team.errors.full_messages
           }, status: :unprocessable_entity
         end
       end
 
       def destroy
-        team = Team.find(params[:id])
-        team.destroy
-        render json: { message: "Deleted successfully" }, status: :ok
-      end
+        @team = Team.find(params[:id])
+        @team.destroy
 
-      def members
-        team = Team.find(params[:id])
-        render json: team.members
+        render json: {
+          message: "Deleted successfully"
+        }, status: :ok
       end
 
     end

@@ -6,7 +6,7 @@ RSpec.describe "Projects API", type: :request do
       Project.create!(name: "Project Alpha")
       Project.create!(name: "Project Beta")
 
-      get "/api/v1/projects"
+      get "/api/v1/projects", as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -20,7 +20,7 @@ RSpec.describe "Projects API", type: :request do
     it "returns a project" do
       project = Project.create!(name: "Project Alpha")
 
-      get "/api/v1/projects/#{project.id}"
+      get "/api/v1/projects/#{project.id}", as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -30,7 +30,7 @@ RSpec.describe "Projects API", type: :request do
     end
 
     it "returns 404 when project does not exist" do
-      get "/api/v1/projects/999999"
+      get "/api/v1/projects/999999", as: :json
 
       expect(response).to have_http_status(:not_found)
     end
@@ -42,7 +42,7 @@ RSpec.describe "Projects API", type: :request do
         post "/api/v1/projects",
              params: {
                name: "Project Alpha"
-             }
+             }, as: :json
       end.to change(Project, :count).by(1)
 
       expect(response).to have_http_status(:created)
@@ -56,7 +56,7 @@ RSpec.describe "Projects API", type: :request do
       patch "/api/v1/projects/#{project.id}",
             params: {
               name: "Project Gamma"
-            }
+            }, as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -69,7 +69,7 @@ RSpec.describe "Projects API", type: :request do
       project = Project.create!(name: "Project Alpha")
 
       expect do
-        delete "/api/v1/projects/#{project.id}"
+        delete "/api/v1/projects/#{project.id}", as: :json
       end.to change(Project, :count).by(-1)
 
       expect(response).to have_http_status(:ok)
@@ -89,7 +89,7 @@ RSpec.describe "Projects API", type: :request do
       project = Project.create!(name: "Project Alpha")
       project.members << member
 
-      get "/api/v1/projects/#{project.id}/members"
+      get "/api/v1/projects/#{project.id}/members", as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -115,7 +115,7 @@ RSpec.describe "Projects API", type: :request do
       post "/api/v1/projects/#{project.id}/add_member",
            params: {
              member_id: member.id
-           }
+           }, as: :json
 
       expect(response).to have_http_status(:ok)
 
