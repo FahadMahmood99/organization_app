@@ -6,7 +6,7 @@ RSpec.describe "Teams API", type: :request do
       Team.create!(name: "Engineering")
       Team.create!(name: "Marketing")
 
-      get "/api/v1/teams"
+      get "/api/v1/teams", as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -20,7 +20,7 @@ RSpec.describe "Teams API", type: :request do
     it "returns a team" do
       team = Team.create!(name: "Engineering")
 
-      get "/api/v1/teams/#{team.id}"
+      get "/api/v1/teams/#{team.id}", as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -30,7 +30,7 @@ RSpec.describe "Teams API", type: :request do
     end
 
     it "returns 404 when team does not exist" do
-      get "/api/v1/teams/999999"
+      get "/api/v1/teams/999999", as: :json
 
       expect(response).to have_http_status(:not_found)
     end
@@ -42,7 +42,8 @@ RSpec.describe "Teams API", type: :request do
         post "/api/v1/teams",
              params: {
                name: "Engineering"
-             }
+             },
+             as: :json
       end.to change(Team, :count).by(1)
 
       expect(response).to have_http_status(:created)
@@ -56,7 +57,8 @@ RSpec.describe "Teams API", type: :request do
       patch "/api/v1/teams/#{team.id}",
             params: {
               name: "Marketing"
-            }
+            },
+            as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -69,7 +71,7 @@ RSpec.describe "Teams API", type: :request do
       team = Team.create!(name: "Engineering")
 
       expect do
-        delete "/api/v1/teams/#{team.id}"
+        delete "/api/v1/teams/#{team.id}", as: :json
       end.to change(Team, :count).by(-1)
 
       expect(response).to have_http_status(:ok)
@@ -92,7 +94,7 @@ RSpec.describe "Teams API", type: :request do
         team: team
       )
 
-      get "/api/v1/teams/#{team.id}/members"
+      get "/api/v1/teams/#{team.id}/members", as: :json
 
       expect(response).to have_http_status(:ok)
 

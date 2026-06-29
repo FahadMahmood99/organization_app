@@ -17,7 +17,7 @@ RSpec.describe "Members API", type: :request do
         team: team
       )
 
-      get "/api/v1/members"
+      get "/api/v1/members", as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -37,7 +37,7 @@ RSpec.describe "Members API", type: :request do
         team: team
       )
 
-      get "/api/v1/members/#{member.id}"
+      get "/api/v1/members/#{member.id}", as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -47,7 +47,7 @@ RSpec.describe "Members API", type: :request do
     end
 
     it "returns 404 when member does not exist" do
-      get "/api/v1/members/999999"
+      get "/api/v1/members/999999", as: :json
 
       expect(response).to have_http_status(:not_found)
     end
@@ -65,7 +65,7 @@ RSpec.describe "Members API", type: :request do
                  last_name: "Doe",
                  team_id: team.id
                }
-             }
+             }, as: :json
       end.to change(Member, :count).by(1)
 
       expect(response).to have_http_status(:created)
@@ -87,7 +87,7 @@ RSpec.describe "Members API", type: :request do
               member: {
                 first_name: "Johnny"
               }
-            }
+            }, as: :json
 
       expect(response).to have_http_status(:ok)
 
@@ -106,7 +106,7 @@ RSpec.describe "Members API", type: :request do
       )
 
       expect do
-        delete "/api/v1/members/#{member.id}"
+        delete "/api/v1/members/#{member.id}", as: :json
       end.to change(Member, :count).by(-1)
 
       expect(response).to have_http_status(:ok)
@@ -127,7 +127,7 @@ RSpec.describe "Members API", type: :request do
       patch "/api/v1/members/#{member.id}/update_team",
             params: {
               team_id: new_team.id
-            }
+            }, as: :json
 
       expect(response).to have_http_status(:ok)
 
