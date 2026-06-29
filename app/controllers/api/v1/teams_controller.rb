@@ -3,7 +3,7 @@ module Api
     class TeamsController < ApplicationController
 
       def index
-        @teams = Team.all
+        @teams = Team.includes(:members)
       end
 
       def show
@@ -41,10 +41,6 @@ module Api
         render json: {
           message: "Deleted successfully"
         }, status: :ok
-      end
-
-      def members
-        @team = Team.find(params[:id])
       end
 
     end

@@ -1,4 +1,1 @@
-json.array! @teams do |team|
-  json.id team.id
-  json.name team.name
-end
+json.array! @teams, partial: "api/v1/teams/team", as: :team

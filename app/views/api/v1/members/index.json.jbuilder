@@ -3,6 +3,7 @@ json.array! @members do |member|
   json.first_name member.first_name
   json.last_name member.last_name
   json.city member.city
+  json.status member.status
   json.state member.state
   json.country member.country
 

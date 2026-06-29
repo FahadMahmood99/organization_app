@@ -1,4 +1,1 @@
-json.array! @projects do |project|
-  json.id project.id
-  json.name project.name
-end
+json.array! @projects, partial: "api/v1/projects/project", as: :project

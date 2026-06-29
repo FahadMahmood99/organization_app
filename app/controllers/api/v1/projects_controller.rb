@@ -3,11 +3,11 @@ module Api
     class ProjectsController < ApplicationController
 
       def index
-        @projects = Project.all
+        @projects = Project.includes(:members)
       end
 
       def show
-        @project = Project.find(params[:id])
+        @project = Project.includes(:members).find(params[:id])
       end
 
       def create

@@ -1,2 +1,1 @@
-json.id @project.id
-json.name @project.name
+json.partial! "api/v1/projects/project", project: @project

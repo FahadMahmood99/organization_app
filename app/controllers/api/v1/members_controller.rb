@@ -61,6 +61,7 @@ module Api
           :city,
           :state,
           :country,
+          :status,
           :team_id
         )
       end
